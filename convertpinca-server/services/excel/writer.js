@@ -25,11 +25,12 @@ function resetSheet(sheet) {
 }
 
 function findSheet(workbook, name) { return workbook.getWorksheet(name) || workbook.addWorksheet(name); }
+function setWidths(sheet, widths) { for (const [column, width] of Object.entries(widths)) sheet.getColumn(column).width = width; }
 
 function writeSummary(sheet, map, model) {
   resetSheet(sheet);
   sheet.name = 'Summary';
-  sheet.columnWidths = { A: 18, B: 30, C: 25, D: 18, E: 18 };
+  setWidths(sheet, { A: 18, B: 30, C: 25, D: 18, E: 18 });
   sheet.mergeCells('A1:E1');
   setCell(sheet.getCell(map.title || 'A1'), 'HUAWEI CLOUD BILL', { font: { ...labelFont, size: 16 }, alignment: { horizontal: 'center', vertical: 'center' } });
   sheet.getRow(1).height = 28;
@@ -45,21 +46,24 @@ function writeSummary(sheet, map, model) {
   setCell(sheet.getCell('C8'), 'Invoice No:', { font: labelFont }); setCell(sheet.getCell('D8'), document.invoiceNumber || '');
   setCell(sheet.getCell('A10'), 'Summary', { font: { ...labelFont, size: 13 } });
   setCell(sheet.getCell('A12'), 'Total', { font: labelFont }); setCell(sheet.getCell('B13'), totalPhp, { numFmt: moneyFormat, font: labelFont });
-  sheet.getCell('A13').border = formalBorder;
+  setCell(sheet.getCell('A13'), '', { font: labelFont });
 }
 
 function writeResources(sheet, map, model, categories) {
   resetSheet(sheet);
   sheet.name = 'Resources';
-  sheet.columnWidths = { A: 36, B: 18 };
+  setWidths(sheet, { A: 36, B: 18 });
   setCell(sheet.getCell('A1'), 'Resources', { font: labelFont, alignment: { horizontal: 'center' } });
   setCell(sheet.getCell('B1'), 'DP', { font: labelFont, alignment: { horizontal: 'center' } });
   const rate = model.document.exchangeRateUsdToPhp;
-  const services = model.services || [];
-  const byCategory = new Map(services.map((service) => [service.category.trim().toLowerCase(), service.amount]));
+  const totalsByCategory = new Map();
+  for (const service of model.services || []) {
+    const key = service.category.trim().toLowerCase();
+    totalsByCategory.set(key, (totalsByCategory.get(key) || 0) + service.amount);
+  }
   categories.forEach((category, index) => {
     const row = 2 + index;
-    const usd = byCategory.get(category.toLowerCase()) ?? 0;
+    const usd = totalsByCategory.get(category.toLowerCase()) || 0;
     const php = rate ? usd * rate : usd;
     setCell(sheet.getCell(`A${row}`), category);
     setCell(sheet.getCell(`B${row}`), php, { numFmt: moneyFormat, alignment: { horizontal: 'right', vertical: 'center' } });
