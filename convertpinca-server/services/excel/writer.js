@@ -1,111 +1,150 @@
 import ExcelJS from 'exceljs';
 
-const thinBorder = { style: 'thin', color: { argb: 'FFD9D9D9' } };
-const formalBorder = { top: thinBorder, left: thinBorder, bottom: thinBorder, right: thinBorder };
-const font = { name: 'Calibri', size: 11, color: { argb: 'FF000000' } };
-const labelFont = { ...font, bold: true };
-const moneyFormat = '$#,##0.00';
+const black = { name: 'Calibri', size: 11, color: { argb: 'FF000000' } };
+const bold = { ...black, bold: true };
+const title = { ...bold, size: 16 };
+const thin = { style: 'thin', color: { argb: 'FFD9D9D9' } };
+const border = { top: thin, left: thin, bottom: thin, right: thin };
+const phpFormat = '₱ #,##0.00';
 
-function setCell(cell, value, options = {}) {
-  cell.value = value;
-  cell.font = options.font || font;
-  cell.border = formalBorder;
+function styleCell(cell, options = {}) {
+  cell.font = options.font || black;
+  cell.border = options.border || border;
   cell.alignment = options.alignment || { vertical: 'center' };
+  cell.fill = { type: 'pattern', pattern: 'none' };
   if (options.numFmt) cell.numFmt = options.numFmt;
 }
 
-function resetSheet(sheet) {
+function clearSheet(sheet) {
+  sheet.views = [{ showGridLines: true }];
   sheet.properties.defaultRowHeight = 18;
-  sheet.views = [{ showGridLines: false }];
-  sheet.eachRow((row) => row.eachCell((cell) => {
-    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFFFF' } };
-    cell.font = font;
-    cell.border = formalBorder;
-  }));
-}
-
-function findSheet(workbook, name) {
-  return workbook.getWorksheet(name) || workbook.addWorksheet(name);
+  for (let row = 1; row <= Math.max(sheet.rowCount, 40); row += 1) {
+    const current = sheet.getRow(row);
+    for (let col = 1; col <= 12; col += 1) {
+      const cell = current.getCell(col);
+      cell.value = null;
+      cell.fill = { type: 'pattern', pattern: 'none' };
+      cell.font = black;
+      cell.border = { top: {}, left: {}, bottom: {}, right: {} };
+      cell.alignment = { vertical: 'center' };
+    }
+  }
+  for (const range of [...sheet.model.merges]) sheet.unMergeCells(range);
 }
 
 function setWidths(sheet, widths) {
   for (const [column, width] of Object.entries(widths)) sheet.getColumn(column).width = width;
 }
 
-function writeSummary(sheet, model) {
-  resetSheet(sheet);
+function writeSummary(sheet, model, totalPhp) {
+  clearSheet(sheet);
   sheet.name = 'Summary';
-  setWidths(sheet, { A: 18, B: 30, C: 25, D: 18, E: 18 });
-  sheet.mergeCells('A1:E1');
-  setCell(sheet.getCell('A1'), 'HUAWEI CLOUD BILL', {
-    font: { ...labelFont, size: 16 },
-    alignment: { horizontal: 'center', vertical: 'center' },
-  });
+  setWidths(sheet, { A: 18, B: 34, C: 25, D: 18, E: 4 });
+
+  sheet.mergeCells('A1:D1');
+  const heading = sheet.getCell('A1');
+  heading.value = 'HUAWEI CLOUD Bill';
+  styleCell(heading, { font: title, border: { top: {}, left: {}, bottom: {}, right: {} } });
   sheet.getRow(1).height = 28;
 
-  const { document, totals } = model;
-  setCell(sheet.getCell('A5'), document.billingMonth || '');
-  setCell(sheet.getCell('A6'), 'Account Name:', { font: labelFont });
-  setCell(sheet.getCell('B6'), document.customerName || '');
-  setCell(sheet.getCell('C6'), 'Remaining Amount Due:', { font: labelFont });
-  setCell(sheet.getCell('D6'), totals.invoice, { numFmt: moneyFormat });
-  setCell(sheet.getCell('A7'), 'Billing Cycle:', { font: labelFont });
-  setCell(sheet.getCell('B7'), document.billingCycle || '');
-  setCell(sheet.getCell('C7'), 'Bill Amount:', { font: labelFont });
-  setCell(sheet.getCell('D7'), totals.invoice, { numFmt: moneyFormat });
-  setCell(sheet.getCell('A8'), 'Export Time:', { font: labelFont });
-  setCell(sheet.getCell('B8'), document.exportTime || '');
-  setCell(sheet.getCell('C8'), 'Invoice No:', { font: labelFont });
-  setCell(sheet.getCell('D8'), document.invoiceNumber || '');
-  setCell(sheet.getCell('A10'), 'Summary', { font: { ...labelFont, size: 13 } });
-  setCell(sheet.getCell('A12'), 'Total', { font: labelFont });
-  setCell(sheet.getCell('B13'), totals.invoice, { numFmt: moneyFormat, font: labelFont });
-  setCell(sheet.getCell('A13'), '', { font: labelFont });
+  const { document } = model;
+  const rows = [
+    ['A5', document.billingMonth || '', {}],
+    ['A6', 'Account Name:', { font: bold }],
+    ['B6', document.customerName || '', {}],
+    ['C6', 'Remaining Amount Due:', { font: bold }],
+    ['D6', totalPhp, { font: bold, numFmt: phpFormat, alignment: { horizontal: 'right', vertical: 'center' } }],
+    ['A7', 'Billing Cycle:', { font: bold }],
+    ['B7', document.billingCycle || '', {}],
+    ['C7', 'Bill Amount:', { font: bold }],
+    ['D7', totalPhp, { font: bold, numFmt: phpFormat, alignment: { horizontal: 'right', vertical: 'center' } }],
+    ['A8', 'Export Time:', { font: bold }],
+    ['B8', document.exportTime || '', {}],
+    ['C8', 'Invoice No:', { font: bold }],
+    ['D8', document.invoiceNumber || '', { font: bold }],
+    ['A10', 'Summary', { font: { ...bold, size: 13 } }],
+    ['A12', 'Total', { font: bold }],
+    ['A13', '₱', { font: bold }],
+    ['B13', totalPhp, { font: bold, numFmt: phpFormat, alignment: { horizontal: 'right', vertical: 'center' } }],
+  ];
+
+  for (const [ref, value, options] of rows) {
+    const cell = sheet.getCell(ref);
+    cell.value = value;
+    styleCell(cell, options);
+  }
 }
 
-function writeResources(sheet, model, categories) {
-  resetSheet(sheet);
+function writeResources(sheet, model, categories, exchangeRate, totalPhp) {
+  clearSheet(sheet);
   sheet.name = 'Resources';
-  setWidths(sheet, { A: 36, B: 18 });
-  setCell(sheet.getCell('A1'), 'Resources', { font: labelFont, alignment: { horizontal: 'center' } });
-  setCell(sheet.getCell('B1'), 'USD', { font: labelFont, alignment: { horizontal: 'center' } });
+  setWidths(sheet, { A: 38, B: 18, C: 4 });
+  sheet.views = [{ showGridLines: true }];
+  sheet.freezePane = { xSplit: 0, ySplit: 1 };
+
+  const headerA = sheet.getCell('A1');
+  headerA.value = 'Resources';
+  styleCell(headerA, { font: bold, alignment: { horizontal: 'center', vertical: 'center' } });
+  const headerB = sheet.getCell('B1');
+  headerB.value = 'DP';
+  styleCell(headerB, { font: bold, alignment: { horizontal: 'center', vertical: 'center' } });
 
   const totalsByCategory = new Map();
   for (const service of model.services || []) {
-    const key = service.category.trim().toLowerCase();
-    totalsByCategory.set(key, (totalsByCategory.get(key) || 0) + service.amount);
+    const key = String(service.category || '').trim().toLowerCase();
+    totalsByCategory.set(key, (totalsByCategory.get(key) || 0) + Number(service.amount || 0));
   }
 
   categories.forEach((category, index) => {
-    const row = 2 + index;
-    const amountUsd = totalsByCategory.get(category.toLowerCase()) || 0;
-    setCell(sheet.getCell(`A${row}`), category);
-    setCell(sheet.getCell(`B${row}`), amountUsd, {
-      numFmt: moneyFormat,
-      alignment: { horizontal: 'right', vertical: 'center' },
-    });
+    const row = index + 2;
+    const usd = totalsByCategory.get(category.toLowerCase()) || 0;
+    const php = Number.isFinite(exchangeRate) ? usd * exchangeRate : 0;
+    const categoryCell = sheet.getCell(`A${row}`);
+    categoryCell.value = category;
+    styleCell(categoryCell);
+    const amountCell = sheet.getCell(`B${row}`);
+    amountCell.value = php;
+    amountCell.numFmt = phpFormat;
+    styleCell(amountCell, { alignment: { horizontal: 'right', vertical: 'center' }, numFmt: phpFormat });
   });
 
-  const totalRow = 2 + categories.length;
-  setCell(sheet.getCell(`A${totalRow}`), 'Total', { font: labelFont });
-  setCell(sheet.getCell(`B${totalRow}`), { formula: `SUM(B2:B${totalRow - 1})` }, {
-    numFmt: moneyFormat,
-    font: labelFont,
-    alignment: { horizontal: 'right', vertical: 'center' },
-  });
+  const totalRow = categories.length + 2;
+  const totalLabel = sheet.getCell(`A${totalRow}`);
+  totalLabel.value = '';
+  styleCell(totalLabel, { font: bold });
+  const totalCell = sheet.getCell(`B${totalRow}`);
+  totalCell.value = { formula: `SUM(B2:B${totalRow - 1})` };
+  styleCell(totalCell, { font: bold, numFmt: phpFormat, alignment: { horizontal: 'right', vertical: 'center' } });
+
+  sheet.getCell('A15').value = '1. Partner bills use GMT+08:00 as the time standard.';
+  sheet.mergeCells('A15:B15');
+  styleCell(sheet.getCell('A15'), { border: { top: {}, left: {}, bottom: {}, right: {} } });
+  sheet.getCell('A16').value = 'This bill is used only to present your expenditure information.';
+  sheet.mergeCells('A16:B16');
+  styleCell(sheet.getCell('A16'), { border: { top: {}, left: {}, bottom: {}, right: {} } });
+  sheet.getCell('A18').value = '2. To view more details, log in to the Partner Center and download the bill.';
+  sheet.mergeCells('A18:B18');
+  styleCell(sheet.getCell('A18'), { border: { top: {}, left: {}, bottom: {}, right: {} } });
 }
 
 export async function writeExcel(templatePath, templateConfig, canonicalModel) {
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(templatePath);
-  const summary = findSheet(workbook, 'Summary');
-  const resources = findSheet(workbook, 'Resources');
 
-  for (const sheet of [...workbook.worksheets]) {
-    if (!['Summary', 'Resources'].includes(sheet.name)) workbook.removeWorksheet(sheet.id);
-  }
+  // Rebuild the output sheets deliberately. The old template had a single dark
+  // worksheet, which is why results ignored the expected Summary/Resources layout.
+  for (const sheet of [...workbook.worksheets]) workbook.removeWorksheet(sheet.id);
+  const summary = workbook.addWorksheet('Summary');
+  const resources = workbook.addWorksheet('Resources');
 
-  writeSummary(summary, canonicalModel);
-  writeResources(resources, canonicalModel, templateConfig.resourceCategories || []);
+  const document = canonicalModel.document || {};
+  const invoiceUsd = Number(canonicalModel.totals?.invoice || 0);
+  const exchangeRate = Number(document.exchangeRateUsdToPhp);
+  const totalPhp = Number(document.totalPhp) || (Number.isFinite(exchangeRate) ? invoiceUsd * exchangeRate : invoiceUsd);
+  const categories = templateConfig.resourceCategories || [];
+
+  writeSummary(summary, canonicalModel, totalPhp);
+  writeResources(resources, canonicalModel, categories, exchangeRate, totalPhp);
+
   return Buffer.from(await workbook.xlsx.writeBuffer());
 }
