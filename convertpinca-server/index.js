@@ -9,7 +9,8 @@ import jobsRoute from './routes/jobs.js';
 import templatesRoute from './routes/templates.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
-// Auto-start worker loop alongside API server (unless explicitly disabled)
+console.log(`[Build] ConvertPinca server booted at ${new Date().toISOString()}`);
+
 if (process.env.START_WORKER !== 'false') {
   import('./worker.js').catch((err) => console.error('[Worker] Failed to start inline worker:', err));
 }
@@ -17,32 +18,18 @@ if (process.env.START_WORKER !== 'false') {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve locally stored files (when Cloudinary is not configured)
 app.use('/local-files', express.static(path.join(__dirname, 'local-storage')));
-
-// API Routes
 app.use('/api/convert', convertRoute);
 app.use('/api/jobs', jobsRoute);
 app.use('/api/templates', templatesRoute);
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-// Central error handler
+app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 app.use(errorHandler);
-
 app.listen(PORT, () => {
   console.log(`\n🚀 ConvertPinca API running at http://localhost:${PORT}`);
   console.log(`   Health: http://localhost:${PORT}/health`);
   console.log(`   Templates: http://localhost:${PORT}/api/templates\n`);
 });
-
 export default app;
