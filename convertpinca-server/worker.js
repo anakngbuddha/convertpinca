@@ -3,78 +3,99 @@ import { popJob } from './services/jobs/queue.js';
 import { updateJob } from './services/jobs/repository.js';
 import { extractFromPdf } from './services/extraction/gemini.js';
 import { regexExtract } from './services/extraction/pdfparse.js';
+import { normalizeInvoiceData } from './services/extraction/normalize.js';
+import { reconcile } from './services/validation/reconcile.js';
 import { fetchFile, upload as storeFile } from './services/storage/index.js';
 import { writeExcel } from './services/excel/writer.js';
-import { reconcile } from './services/validation/reconcile.js';
 import { getTemplate } from './templates/index.js';
 
-console.log('🔧 ConvertPinca Worker started. Waiting for jobs...\n');
+console.log('🔧 ConvertPinca Worker started. Pipeline initialized.\n');
 
 async function processJob(payload) {
   const { jobId, sourceUrl, templateId } = payload;
-  console.log(`[Job ${jobId}] Starting — template: ${templateId}`);
+  console.log(`[Job ${jobId}] Processing — template: ${templateId}`);
 
-  // Mark as processing
+  // 1. Mark status as processing
   await updateJob(jobId, { status: 'processing' });
 
-  // Load template config
+  // 2. Load template configuration
   const template = getTemplate(templateId);
+  if (!template) {
+    throw new Error(`Unknown or unsupported templateId: "${templateId}"`);
+  }
 
-  // Fetch the PDF from storage
+  // 3. Fetch original PDF file from storage
   const pdfBuffer = await fetchFile(sourceUrl);
 
-  // --- Extraction: Gemini first, regex fallback ---
-  let extracted;
+  // 4. Extract raw data (Gemini Flash first, Regex fallback second)
+  let rawData;
   let extractionMethod = 'gemini';
 
   try {
     console.log(`[Job ${jobId}] Extracting with Gemini...`);
     const pdfBase64 = pdfBuffer.toString('base64');
-    extracted = await extractFromPdf(pdfBase64, template.schema);
+    rawData = await extractFromPdf(pdfBase64, template.schema);
   } catch (geminiErr) {
-    console.warn(`[Job ${jobId}] ⚠️  Gemini failed (${geminiErr.message}). Trying regex fallback...`);
+    console.warn(`[Job ${jobId}] ⚠️ Gemini extraction failed (${geminiErr.message}). Trying regex fallback...`);
     try {
-      extracted = await regexExtract(pdfBuffer, template.regexExtractor);
+      rawData = await regexExtract(pdfBuffer, template.regexExtractor);
       extractionMethod = 'regex-fallback';
       console.log(`[Job ${jobId}] ✅ Regex fallback succeeded.`);
     } catch (regexErr) {
       console.error(`[Job ${jobId}] ❌ Regex fallback also failed: ${regexErr.message}`);
-      throw geminiErr; // surface the original Gemini error as primary cause
+      throw geminiErr;
     }
   }
 
-  console.log(`[Job ${jobId}] Extracted via ${extractionMethod}.`);
+  // 5. Normalize into Canonical Model
+  console.log(`[Job ${jobId}] Normalizing extracted data...`);
+  const canonicalModel = normalizeInvoiceData(rawData, templateId, extractionMethod);
 
-  // Sanity check
-  const { valid, warnings } = reconcile(extracted);
-  if (warnings.length > 0) {
-    console.warn(`[Job ${jobId}] Validation warnings:`, warnings);
+  // 6. Hard-Gated Reconciliation & Schema Validation
+  console.log(`[Job ${jobId}] Running hard-gated reconciliation check...`);
+  const reconciliation = reconcile(canonicalModel);
+
+  if (!reconciliation.reconciled) {
+    const failureReason = reconciliation.errors.join(' | ');
+    console.error(`[Job ${jobId}] ❌ Reconciliation FAILD: ${failureReason}`);
+
+    // Hard gate: update job status to validation_failed and HALT processing
+    await updateJob(jobId, {
+      status: 'failed',
+      errorMessage: `Validation / Reconciliation Failed: ${failureReason}`,
+    });
+    return;
   }
 
-  // Write Excel
-  console.log(`[Job ${jobId}] Writing Excel...`);
-  const excelBuffer = await writeExcel(template.templatePath, template.cellMap, extracted);
+  if (reconciliation.warnings.length > 0) {
+    console.warn(`[Job ${jobId}] ⚠️ Reconciliation warnings:`, reconciliation.warnings);
+  }
 
-  // Upload result
+  console.log(`[Job ${jobId}] ✅ Reconciliation passed! (Services sum matches invoice total)`);
+
+  // 7. Dynamic Excel Rendering (ExcelJS)
+  console.log(`[Job ${jobId}] Rendering Excel report (USD)...`);
+  const excelBuffer = await writeExcel(template.templatePath, template, canonicalModel);
+
+  // 8. Upload result file to storage
   const resultFilename = `result-${jobId}.xlsx`;
   const resultUrl = await storeFile(excelBuffer, resultFilename, 'results');
 
-  // Mark as done
+  // 9. Update job status to done
   await updateJob(jobId, { status: 'done', resultUrl });
-  console.log(`[Job ${jobId}] ✅ Done (${extractionMethod}) — result: ${resultUrl}`);
+  console.log(`[Job ${jobId}] 🎉 Complete! Result uploaded to: ${resultUrl}`);
 }
 
 async function runWorkerLoop() {
   while (true) {
     try {
-      const payload = await popJob(5); // 5-second timeout per cycle
+      const payload = await popJob(5); // 5-second polling interval
       if (!payload) continue;
 
-      await processJob(payload);
+      await processJobWithContext(payload);
     } catch (err) {
       console.error(`[Worker Error]`, err.message);
 
-      // If payload had a jobId, mark it failed
       if (err._jobId) {
         try {
           await updateJob(err._jobId, {
@@ -82,21 +103,18 @@ async function runWorkerLoop() {
             errorMessage: err.message,
           });
         } catch (dbErr) {
-          console.error('[Worker] Could not update failed job status:', dbErr.message);
+          console.error('[Worker] Failed to update job status:', dbErr.message);
         }
       }
 
-      // Brief pause before retrying to prevent tight error loops
       await new Promise((r) => setTimeout(r, 2000));
     }
   }
 }
 
-// Wrap processJob to attach jobId to errors
-const originalProcessJob = processJob;
 async function processJobWithContext(payload) {
   try {
-    await originalProcessJob(payload);
+    await processJob(payload);
   } catch (err) {
     err._jobId = payload?.jobId;
     throw err;
@@ -104,6 +122,6 @@ async function processJobWithContext(payload) {
 }
 
 runWorkerLoop().catch((err) => {
-  console.error('[Worker] Fatal error:', err);
+  console.error('[Worker] Fatal loop error:', err);
   process.exit(1);
 });

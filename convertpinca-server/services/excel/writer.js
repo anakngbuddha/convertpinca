@@ -1,42 +1,65 @@
 import ExcelJS from 'exceljs';
+import { renderServiceRows } from './row-inserter.js';
 
 /**
- * Loads an Excel template and writes extracted data into mapped cells.
- * Preserves all existing styles, merged cells, and formatting.
+ * Loads an Excel template and writes canonical invoice data into resolved worksheets.
+ * Preserves all existing styles, fonts, borders, and number formats.
  *
- * @param {string} templatePath - Absolute path to the .xlsx template file
- * @param {object} cellMap - Cell mapping configuration from template mapping.js
- * @param {object} data - Extracted data from Gemini
- * @returns {Promise<Buffer>} - Populated Excel workbook as a buffer
+ * @param {string} templatePath - Absolute path to template file
+ * @param {object} templateConfig - Template configuration object (sheets & cellMap)
+ * @param {object} canonicalModel - Validated canonical invoice model
+ * @returns {Promise<Buffer>} - Populated Excel workbook buffer
  */
-export async function writeExcel(templatePath, cellMap, data) {
+export async function writeExcel(templatePath, templateConfig, canonicalModel) {
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(templatePath);
-  const sheet = workbook.worksheets[0];
 
-  // Write simple header/scalar fields
-  for (const [key, cellRef] of Object.entries(cellMap)) {
-    if (key === 'lineItems') continue;
-    if (data[key] !== undefined && data[key] !== null) {
-      const cell = sheet.getCell(cellRef);
-      cell.value = data[key];
-      // Preserve existing style — do not reset fill/font
-    }
+  const usdFormat = '$#,##0.00';
+  const { document, services, totals } = canonicalModel;
+  const cellMap = templateConfig.cellMap;
+
+  // 1. Resolve Summary sheet by NAME with fallback to first worksheet
+  const summarySheetName = templateConfig.sheets?.summary || 'Summary';
+  const summarySheet = workbook.getWorksheet(summarySheetName) || workbook.worksheets[0];
+
+  if (!summarySheet) {
+    throw new Error(`No valid worksheet found in template "${templatePath}".`);
   }
 
-  // Write line items (tabular rows)
-  if (cellMap.lineItems && Array.isArray(data.lineItems)) {
-    const { startRow, columns } = cellMap.lineItems;
+  // Populate Summary scalar cells
+  const summaryMap = cellMap.summary || {};
 
-    data.lineItems.forEach((item, index) => {
-      const rowNum = startRow + index;
-      for (const [field, col] of Object.entries(columns)) {
-        if (item[field] !== undefined && item[field] !== null) {
-          const cell = sheet.getCell(`${col}${rowNum}`);
-          cell.value = item[field];
-        }
-      }
-    });
+  if (summaryMap.invoiceNumber && document.invoiceNumber) {
+    summarySheet.getCell(summaryMap.invoiceNumber).value = document.invoiceNumber;
+  }
+  if (summaryMap.customerName && document.customerName) {
+    summarySheet.getCell(summaryMap.customerName).value = document.customerName;
+  }
+  if (summaryMap.billingMonth && document.billingMonth) {
+    summarySheet.getCell(summaryMap.billingMonth).value = document.billingMonth;
+  }
+  if (summaryMap.currency && document.currency) {
+    summarySheet.getCell(summaryMap.currency).value = document.currency;
+  }
+
+  if (summaryMap.totalUsd && typeof totals.invoice === 'number') {
+    const cell = summarySheet.getCell(summaryMap.totalUsd);
+    cell.value = totals.invoice;
+    cell.numFmt = usdFormat;
+  }
+
+  if (summaryMap.grandTotalUsd && summaryMap.grandTotalUsd !== summaryMap.totalUsd && typeof totals.invoice === 'number') {
+    const cell = summarySheet.getCell(summaryMap.grandTotalUsd);
+    cell.value = totals.invoice;
+    cell.numFmt = usdFormat;
+  }
+
+  // 2. Resolve Services/Resources sheet by NAME with fallback to summarySheet
+  const servicesSheetName = templateConfig.sheets?.services || 'Resources';
+  const servicesSheet = workbook.getWorksheet(servicesSheetName) || summarySheet;
+
+  if (servicesSheet && cellMap.services) {
+    renderServiceRows(servicesSheet, cellMap.services, services);
   }
 
   const buffer = await workbook.xlsx.writeBuffer();

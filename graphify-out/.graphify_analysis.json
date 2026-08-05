@@ -4,6 +4,7 @@
       "convertpinca_client_src_api_client",
       "convertpinca_client_src_api_client_api",
       "convertpinca_client_src_api_client_handleresponse",
+      "convertpinca_client_src_api_client_resolveurl",
       "convertpinca_client_src_app",
       "convertpinca_client_src_app_activetab",
       "convertpinca_client_src_app_app",
@@ -70,11 +71,6 @@
       "ref_react"
     ],
     "1": [
-      "convertpinca_server_index",
-      "convertpinca_server_index_app",
-      "convertpinca_server_index_dirname",
-      "convertpinca_server_middleware_errorhandler",
-      "convertpinca_server_middleware_errorhandler_errorhandler",
       "convertpinca_server_middleware_upload",
       "convertpinca_server_middleware_upload_storage",
       "convertpinca_server_middleware_upload_upload",
@@ -84,13 +80,6 @@
       "convertpinca_server_routes_jobs_router",
       "convertpinca_server_routes_templates",
       "convertpinca_server_routes_templates_router",
-      "convertpinca_server_services_excel_writer",
-      "convertpinca_server_services_excel_writer_writeexcel",
-      "convertpinca_server_services_extraction_gemini",
-      "convertpinca_server_services_extraction_gemini_extractfrompdf",
-      "convertpinca_server_services_jobs_queue",
-      "convertpinca_server_services_jobs_queue_popjob",
-      "convertpinca_server_services_jobs_queue_pushjob",
       "convertpinca_server_services_jobs_repository",
       "convertpinca_server_services_jobs_repository_createjob",
       "convertpinca_server_services_jobs_repository_getjobbyid",
@@ -104,17 +93,12 @@
       "convertpinca_server_services_storage_index_fetchfile",
       "convertpinca_server_services_storage_index_local_storage_dir",
       "convertpinca_server_services_storage_index_upload",
-      "convertpinca_server_services_validation_reconcile",
-      "convertpinca_server_services_validation_reconcile_reconcile",
       "convertpinca_server_templates_huawei_cloud_mapping",
+      "convertpinca_server_templates_huawei_cloud_mapping_regexextractor",
       "convertpinca_server_templates_index",
       "convertpinca_server_templates_index_gettemplate",
       "convertpinca_server_templates_index_listtemplates",
-      "convertpinca_server_templates_index_templates",
-      "convertpinca_server_worker",
-      "convertpinca_server_worker_processjob",
-      "convertpinca_server_worker_processjobwithcontext",
-      "convertpinca_server_worker_runworkerloop"
+      "convertpinca_server_templates_index_templates"
     ],
     "2": [
       "class_variance_authority",
@@ -174,6 +158,33 @@
       "ref_es2020"
     ],
     "4": [
+      "cloudinary",
+      "convertpinca_server_package_dependencies",
+      "convertpinca_server_package_dependencies_cloudinary",
+      "convertpinca_server_package_dependencies_cors",
+      "convertpinca_server_package_dependencies_dotenv",
+      "convertpinca_server_package_dependencies_exceljs",
+      "convertpinca_server_package_dependencies_express",
+      "convertpinca_server_package_dependencies_google_genai",
+      "convertpinca_server_package_dependencies_multer",
+      "convertpinca_server_package_dependencies_pdf_parse",
+      "convertpinca_server_package_dependencies_prisma",
+      "convertpinca_server_package_dependencies_prisma_client",
+      "convertpinca_server_package_dependencies_redis",
+      "convertpinca_server_package_dependencies_uuid",
+      "cors",
+      "dotenv",
+      "exceljs",
+      "express",
+      "google_genai",
+      "multer",
+      "pdf_parse",
+      "prisma",
+      "prisma_client",
+      "redis",
+      "uuid"
+    ],
+    "5": [
       "convertpinca_client_package",
       "convertpinca_client_package_devdependencies",
       "convertpinca_client_package_devdependencies_oxlint",
@@ -200,7 +211,7 @@
       "vite",
       "vitejs_plugin_react"
     ],
-    "5": [
+    "6": [
       "convertpinca_client_tsconfig_app",
       "convertpinca_client_tsconfig_app_compileroptions",
       "convertpinca_client_tsconfig_app_compileroptions_allowarbitraryextensions",
@@ -226,30 +237,30 @@
       "convertpinca_client_tsconfig_app_json_ref_src",
       "ref_vite_client"
     ],
-    "6": [
-      "cloudinary",
-      "convertpinca_server_package_dependencies",
-      "convertpinca_server_package_dependencies_cloudinary",
-      "convertpinca_server_package_dependencies_cors",
-      "convertpinca_server_package_dependencies_dotenv",
-      "convertpinca_server_package_dependencies_exceljs",
-      "convertpinca_server_package_dependencies_express",
-      "convertpinca_server_package_dependencies_google_genai",
-      "convertpinca_server_package_dependencies_multer",
-      "convertpinca_server_package_dependencies_prisma_client",
-      "convertpinca_server_package_dependencies_redis",
-      "convertpinca_server_package_dependencies_uuid",
-      "cors",
-      "dotenv",
-      "exceljs",
-      "express",
-      "google_genai",
-      "multer",
-      "prisma_client",
-      "redis",
-      "uuid"
-    ],
     "7": [
+      "convertpinca_server_config_cloudinary",
+      "convertpinca_server_config_cloudinary_iscloudinaryconfigured",
+      "convertpinca_server_config_db",
+      "convertpinca_server_config_gemini",
+      "convertpinca_server_config_gemini_getgeminiclient",
+      "convertpinca_server_config_index",
+      "convertpinca_server_config_index_config",
+      "convertpinca_server_config_queue",
+      "convertpinca_server_config_queue_getqueueclient",
+      "convertpinca_server_config_queue_inmemoryqueue",
+      "convertpinca_server_config_queue_localqueue",
+      "convertpinca_server_services_extraction_pdfparse",
+      "convertpinca_server_services_extraction_pdfparse_extracttext",
+      "convertpinca_server_services_extraction_pdfparse_regexextract",
+      "convertpinca_server_services_jobs_queue",
+      "convertpinca_server_services_jobs_queue_popjob",
+      "convertpinca_server_services_jobs_queue_pushjob",
+      "convertpinca_server_worker",
+      "convertpinca_server_worker_processjob",
+      "convertpinca_server_worker_processjobwithcontext",
+      "convertpinca_server_worker_runworkerloop"
+    ],
+    "8": [
       "convertpinca_client_tsconfig_node",
       "convertpinca_client_tsconfig_node_compileroptions",
       "convertpinca_client_tsconfig_node_compileroptions_allowimportingtsextensions",
@@ -271,38 +282,25 @@
       "ref_node",
       "ref_vite_config_ts"
     ],
-    "8": [
+    "9": [
       "convertpinca_server_package",
       "convertpinca_server_package_description",
       "convertpinca_server_package_devdependencies",
       "convertpinca_server_package_devdependencies_nodemon",
-      "convertpinca_server_package_devdependencies_prisma",
       "convertpinca_server_package_main",
       "convertpinca_server_package_name",
       "convertpinca_server_package_scripts",
+      "convertpinca_server_package_scripts_build",
       "convertpinca_server_package_scripts_dev",
+      "convertpinca_server_package_scripts_migrate_deploy",
+      "convertpinca_server_package_scripts_migrate_dev",
       "convertpinca_server_package_scripts_prisma_generate",
-      "convertpinca_server_package_scripts_prisma_push",
       "convertpinca_server_package_scripts_prisma_studio",
       "convertpinca_server_package_scripts_start",
       "convertpinca_server_package_scripts_worker",
       "convertpinca_server_package_type",
       "convertpinca_server_package_version",
-      "nodemon",
-      "prisma"
-    ],
-    "9": [
-      "convertpinca_server_config_cloudinary",
-      "convertpinca_server_config_cloudinary_iscloudinaryconfigured",
-      "convertpinca_server_config_db",
-      "convertpinca_server_config_gemini",
-      "convertpinca_server_config_gemini_getgeminiclient",
-      "convertpinca_server_config_index",
-      "convertpinca_server_config_index_config",
-      "convertpinca_server_config_queue",
-      "convertpinca_server_config_queue_getqueueclient",
-      "convertpinca_server_config_queue_inmemoryqueue",
-      "convertpinca_server_config_queue_localqueue"
+      "nodemon"
     ],
     "10": [
       "convertpinca_client_oxlintrc",
@@ -322,23 +320,60 @@
       "convertpinca_server_scripts_generate_template_out_path"
     ],
     "12": [
+      "convertpinca_client_src_vite_env_d",
+      "convertpinca_client_src_vite_env_d_importmeta",
+      "convertpinca_client_src_vite_env_d_importmetaenv"
+    ],
+    "13": [
+      "convertpinca_server_index",
+      "convertpinca_server_index_app",
+      "convertpinca_server_index_dirname"
+    ],
+    "14": [
+      "convertpinca_client_vercel",
+      "convertpinca_client_vercel_rewrites"
+    ],
+    "15": [
+      "convertpinca_server_middleware_errorhandler",
+      "convertpinca_server_middleware_errorhandler_errorhandler"
+    ],
+    "16": [
+      "convertpinca_server_services_excel_writer",
+      "convertpinca_server_services_excel_writer_writeexcel"
+    ],
+    "17": [
+      "convertpinca_server_services_extraction_gemini",
+      "convertpinca_server_services_extraction_gemini_extractfrompdf"
+    ],
+    "18": [
+      "convertpinca_server_services_validation_reconcile",
+      "convertpinca_server_services_validation_reconcile_reconcile"
+    ],
+    "19": [
       "convertpinca_client_vite_config"
     ]
   },
   "cohesion": {
-    "0": 0.07281772953414745,
-    "1": 0.0797979797979798,
+    "0": 0.06892010535557506,
+    "1": 0.08994708994708994,
     "2": 0.07407407407407407,
     "3": 0.07692307692307693,
     "4": 0.08,
-    "5": 0.08333333333333333,
-    "6": 0.09523809523809523,
-    "7": 0.1,
-    "8": 0.1111111111111111,
-    "9": 0.23636363636363636,
+    "5": 0.08,
+    "6": 0.08333333333333333,
+    "7": 0.15714285714285714,
+    "8": 0.1,
+    "9": 0.1111111111111111,
     "10": 0.2222222222222222,
     "11": 0.5,
-    "12": 1.0
+    "12": 0.6666666666666666,
+    "13": 0.6666666666666666,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0
   },
   "gods": [
     {
@@ -362,13 +397,8 @@
       "degree": 12
     },
     {
-      "id": "convertpinca_client_src_types_index_job",
-      "label": "Job",
-      "degree": 9
-    },
-    {
-      "id": "convertpinca_server_worker_processjob",
-      "label": "processJob()",
+      "id": "convertpinca_server_package_scripts",
+      "label": "scripts",
       "degree": 9
     },
     {
@@ -377,9 +407,9 @@
       "degree": 8
     },
     {
-      "id": "convertpinca_server_package_scripts",
-      "label": "scripts",
-      "degree": 7
+      "id": "convertpinca_client_src_types_index_job",
+      "label": "Job",
+      "degree": 8
     },
     {
       "id": "convertpinca_client_package_scripts",
@@ -389,6 +419,11 @@
     {
       "id": "convertpinca_client_src_components_ui_badge_badge",
       "label": "Badge()",
+      "degree": 5
+    },
+    {
+      "id": "convertpinca_client_src_components_ui_card_card",
+      "label": "Card",
       "degree": 5
     }
   ],
