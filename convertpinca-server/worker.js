@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { popJob } from './services/jobs/queue.js';
 import { updateJob } from './services/jobs/repository.js';
 import { extractFromPdf } from './services/extraction/gemini.js';
+import { regexExtract } from './services/extraction/pdfparse.js';
 import { fetchFile, upload as storeFile } from './services/storage/index.js';
 import { writeExcel } from './services/excel/writer.js';
 import { reconcile } from './services/validation/reconcile.js';
@@ -21,11 +22,28 @@ async function processJob(payload) {
 
   // Fetch the PDF from storage
   const pdfBuffer = await fetchFile(sourceUrl);
-  const pdfBase64 = pdfBuffer.toString('base64');
 
-  // Extract structured data via Gemini
-  console.log(`[Job ${jobId}] Extracting with Gemini...`);
-  const extracted = await extractFromPdf(pdfBase64, template.schema);
+  // --- Extraction: Gemini first, regex fallback ---
+  let extracted;
+  let extractionMethod = 'gemini';
+
+  try {
+    console.log(`[Job ${jobId}] Extracting with Gemini...`);
+    const pdfBase64 = pdfBuffer.toString('base64');
+    extracted = await extractFromPdf(pdfBase64, template.schema);
+  } catch (geminiErr) {
+    console.warn(`[Job ${jobId}] ⚠️  Gemini failed (${geminiErr.message}). Trying regex fallback...`);
+    try {
+      extracted = await regexExtract(pdfBuffer, template.regexExtractor);
+      extractionMethod = 'regex-fallback';
+      console.log(`[Job ${jobId}] ✅ Regex fallback succeeded.`);
+    } catch (regexErr) {
+      console.error(`[Job ${jobId}] ❌ Regex fallback also failed: ${regexErr.message}`);
+      throw geminiErr; // surface the original Gemini error as primary cause
+    }
+  }
+
+  console.log(`[Job ${jobId}] Extracted via ${extractionMethod}.`);
 
   // Sanity check
   const { valid, warnings } = reconcile(extracted);
@@ -43,7 +61,7 @@ async function processJob(payload) {
 
   // Mark as done
   await updateJob(jobId, { status: 'done', resultUrl });
-  console.log(`[Job ${jobId}] ✅ Done — result: ${resultUrl}`);
+  console.log(`[Job ${jobId}] ✅ Done (${extractionMethod}) — result: ${resultUrl}`);
 }
 
 async function runWorkerLoop() {
