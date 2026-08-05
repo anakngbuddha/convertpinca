@@ -1,0 +1,752 @@
+{
+  "nodes": [
+    {
+      "id": "convertpinca_client_src_components_resultpreview_resultpreview_resultpreview",
+      "label": "ResultPreview",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/components/ResultPreview/ResultPreview.tsx",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_components_ui_badge_badgeprops",
+      "label": "BadgeProps",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/components/ui/badge.tsx",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_components_ui_button_buttonprops",
+      "label": "ButtonProps",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/components/ui/button.tsx",
+      "source_location": "L36",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_hooks_usejobpolling_usejobpolling",
+      "label": "useJobPolling",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/hooks/useJobPolling.ts",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_lib_utils_cn",
+      "label": "cn",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/lib/utils.ts",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_types_index_jobstatus",
+      "label": "JobStatus",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/types/index.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_types_index_job",
+      "label": "Job",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/types/index.ts",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_types_index_template",
+      "label": "Template",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/types/index.ts",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_types_index_convertresponse",
+      "label": "ConvertResponse",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/types/index.ts",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_types_index_jobslistresponse",
+      "label": "JobsListResponse",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/types/index.ts",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_client_src_types_index_templateslistresponse",
+      "label": "TemplatesListResponse",
+      "file_type": "code",
+      "source_file": "convertpinca-client/src/types/index.ts",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_middleware_errorhandler_errorhandler",
+      "label": "errorHandler",
+      "file_type": "code",
+      "source_file": "convertpinca-server/middleware/errorHandler.js",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_excel_writer_writeexcel",
+      "label": "writeExcel",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/excel/writer.js",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_extraction_gemini_extractfrompdf",
+      "label": "extractFromPdf",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/extraction/gemini.js",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_jobs_queue_pushjob",
+      "label": "pushJob",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/jobs/queue.js",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_jobs_queue_popjob",
+      "label": "popJob",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/jobs/queue.js",
+      "source_location": "L28",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_jobs_repository_createjob",
+      "label": "createJob",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/jobs/repository.js",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_jobs_repository_getjobbyid",
+      "label": "getJobById",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/jobs/repository.js",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_jobs_repository_listjobs",
+      "label": "listJobs",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/jobs/repository.js",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_jobs_repository_updatejob",
+      "label": "updateJob",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/jobs/repository.js",
+      "source_location": "L40",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_storage_cloudinary_uploadbuffer",
+      "label": "uploadBuffer",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/storage/cloudinary.js",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_storage_cloudinary_fetchbuffer",
+      "label": "fetchBuffer",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/storage/cloudinary.js",
+      "source_location": "L33",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_storage_index_upload",
+      "label": "upload",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/storage/index.js",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_storage_index_fetchfile",
+      "label": "fetchFile",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/storage/index.js",
+      "source_location": "L40",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_services_validation_reconcile_reconcile",
+      "label": "reconcile",
+      "file_type": "code",
+      "source_file": "convertpinca-server/services/validation/reconcile.js",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_templates_index_gettemplate",
+      "label": "getTemplate",
+      "file_type": "code",
+      "source_file": "convertpinca-server/templates/index.js",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "convertpinca_server_templates_index_listtemplates",
+      "label": "listTemplates",
+      "file_type": "code",
+      "source_file": "convertpinca-server/templates/index.js",
+      "source_location": "L16",
+      "_origin": "ast"
+    }
+  ],
+  "edges": [
+    {
+      "source": "convertpinca_client_src_app",
+      "target": "convertpinca_client_src_components_resultpreview_resultpreview_resultpreview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/App.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_app",
+      "target": "convertpinca_client_src_hooks_usejobpolling_usejobpolling",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/App.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_api_client",
+      "target": "convertpinca_client_src_types_index_convertresponse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/api/client.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_api_client",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/api/client.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_api_client",
+      "target": "convertpinca_client_src_types_index_jobslistresponse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/api/client.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_api_client",
+      "target": "convertpinca_client_src_types_index_templateslistresponse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/api/client.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_history_jobhistorytable",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/History/JobHistoryTable.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_history_jobhistorytable",
+      "target": "convertpinca_client_src_types_index_jobstatus",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/History/JobHistoryTable.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_jobstatus_jobstatustracker",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/JobStatus/JobStatusTracker.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_jobstatus_jobstatustracker",
+      "target": "convertpinca_client_src_types_index_jobstatus",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/JobStatus/JobStatusTracker.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_resultpreview_resultpreview",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ResultPreview/ResultPreview.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_upload_uploadcard",
+      "target": "convertpinca_client_src_types_index_template",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/Upload/UploadCard.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_ui_badge",
+      "target": "convertpinca_client_src_lib_utils_cn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ui/badge.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_ui_button",
+      "target": "convertpinca_client_src_lib_utils_cn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ui/button.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_ui_card",
+      "target": "convertpinca_client_src_lib_utils_cn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ui/card.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_ui_progress",
+      "target": "convertpinca_client_src_lib_utils_cn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ui/progress.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_ui_select",
+      "target": "convertpinca_client_src_lib_utils_cn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ui/select.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_components_ui_table",
+      "target": "convertpinca_client_src_lib_utils_cn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ui/table.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_hooks_usejobpolling",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/hooks/useJobPolling.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_client_src_hooks_usejobpolling",
+      "target": "convertpinca_client_src_types_index_jobstatus",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/hooks/useJobPolling.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_index",
+      "target": "convertpinca_server_middleware_errorhandler_errorhandler",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/index.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_convert",
+      "target": "convertpinca_server_services_jobs_repository_createjob",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/convert.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_convert",
+      "target": "convertpinca_server_services_jobs_queue_pushjob",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/convert.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_convert",
+      "target": "convertpinca_server_services_storage_index_upload",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/convert.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_convert",
+      "target": "convertpinca_server_templates_index_gettemplate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/convert.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_jobs",
+      "target": "convertpinca_server_services_jobs_repository_getjobbyid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/jobs.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_jobs",
+      "target": "convertpinca_server_services_jobs_repository_listjobs",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/jobs.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_routes_templates",
+      "target": "convertpinca_server_templates_index_listtemplates",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/routes/templates.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_jobs_queue_popjob",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_jobs_repository_updatejob",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_extraction_gemini_extractfrompdf",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_storage_index_fetchfile",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_storage_index_upload",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_excel_writer_writeexcel",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_services_validation_reconcile_reconcile",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "convertpinca_server_worker",
+      "target": "convertpinca_server_templates_index_gettemplate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_services_jobs_repository_updatejob",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_templates_index_gettemplate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_services_storage_index_fetchfile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_services_extraction_gemini_extractfrompdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_services_validation_reconcile_reconcile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_services_excel_writer_writeexcel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_processjob",
+      "target": "convertpinca_server_services_storage_index_upload",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_runworkerloop",
+      "target": "convertpinca_server_services_jobs_queue_popjob",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_server_worker_runworkerloop",
+      "target": "convertpinca_server_services_jobs_repository_updatejob",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-server/worker.js",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_client_src_components_jobstatus_jobstatustracker_jobstatustrackerprops",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/JobStatus/JobStatusTracker.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_client_src_components_resultpreview_resultpreview_resultpreviewprops",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/components/ResultPreview/ResultPreview.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "c_users_markmv_desktop_convertpinca_convertpinca_client_src_hooks_usejobpolling_usejobpollingresult",
+      "target": "convertpinca_client_src_types_index_job",
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "convertpinca-client/src/hooks/useJobPolling.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
