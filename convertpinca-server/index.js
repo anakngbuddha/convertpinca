@@ -9,6 +9,11 @@ import jobsRoute from './routes/jobs.js';
 import templatesRoute from './routes/templates.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
+// Auto-start worker loop alongside API server (unless explicitly disabled)
+if (process.env.START_WORKER !== 'false') {
+  import('./worker.js').catch((err) => console.error('[Worker] Failed to start inline worker:', err));
+}
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 5000;
