@@ -8,11 +8,11 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "worker": "node worker.js",
-    "migrate:dev": "npx prisma migrate dev",
-    "migrate:deploy": "npx prisma migrate deploy",
-    "prisma:generate": "npx prisma generate",
-    "prisma:studio": "npx prisma studio",
-    "build": "npx prisma generate && npx prisma migrate deploy"
+    "migrate:dev": "node node_modules/prisma/build/index.js migrate dev",
+    "migrate:deploy": "node node_modules/prisma/build/index.js migrate deploy",
+    "prisma:generate": "node node_modules/prisma/build/index.js generate",
+    "prisma:studio": "node node_modules/prisma/build/index.js studio",
+    "build": "node node_modules/prisma/build/index.js generate && node node_modules/prisma/build/index.js migrate deploy"
   },
   "dependencies": {
     "@google/genai": "^1.7.0",

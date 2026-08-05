@@ -5,7 +5,7 @@ services:
     env: node
     plan: free
     rootDir: convertpinca-server
-    buildCommand: npm install && npx prisma generate && npx prisma db push
+    buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
       - key: PORT
