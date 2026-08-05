@@ -5,14 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npx prisma db push --accept-data-loss && node index.js",
+    "start": "node node_modules/prisma/build/index.js db push --accept-data-loss && node index.js",
     "dev": "nodemon index.js",
     "worker": "node worker.js",
-    "migrate:dev": "npx prisma migrate dev",
-    "migrate:deploy": "npx prisma migrate deploy",
-    "prisma:generate": "npx prisma generate",
-    "prisma:studio": "npx prisma studio",
-    "build": "npx prisma generate"
+    "migrate:dev": "node node_modules/prisma/build/index.js migrate dev",
+    "migrate:deploy": "node node_modules/prisma/build/index.js migrate deploy",
+    "prisma:generate": "node node_modules/prisma/build/index.js generate",
+    "prisma:studio": "node node_modules/prisma/build/index.js studio",
+    "build": "node node_modules/prisma/build/index.js generate"
   },
   "dependencies": {
     "@google/genai": "^1.7.0",
