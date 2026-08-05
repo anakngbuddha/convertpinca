@@ -67,7 +67,7 @@ async function processJob(payload) {
 async function runWorkerLoop() {
   while (true) {
     try {
-      const payload = await popJob(0); // blocks until a job arrives
+      const payload = await popJob(5); // 5-second timeout per cycle
       if (!payload) continue;
 
       await processJob(payload);
